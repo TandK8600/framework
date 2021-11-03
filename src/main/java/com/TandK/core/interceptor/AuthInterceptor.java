@@ -4,6 +4,7 @@ package com.TandK.core.interceptor;
 import com.TandK.core.annotation.IgnoreToken;
 import com.TandK.core.exception.BizCodeEnum;
 import com.TandK.core.exception.RRException;
+import com.TandK.core.exception.UserException;
 import com.TandK.core.support.threadlocal.UserThreadLocal;
 import com.TandK.model.po.UserPO;
 import com.TandK.service.UserTokenService;
@@ -38,14 +39,14 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authrization");
         if(StringUtils.isBlank(token) || token.equals("[object Undefined]")){
             // 没带token
-            throw new RRException(BizCodeEnum.UNAUTHORIZED);
+            throw new UserException(BizCodeEnum.UNAUTHORIZED);
         }
 
         // 根据token获取用户信息
         UserPO userPO = userTokenService.getUserByToken(token);
         if(userPO == null){
             // 鉴权失败
-            throw new RRException(BizCodeEnum.UNAUTHORIZED);
+            throw new UserException(BizCodeEnum.UNAUTHORIZED);
         }
 
         // 存储用户信息

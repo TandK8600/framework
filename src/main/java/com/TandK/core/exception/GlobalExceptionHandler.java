@@ -51,6 +51,18 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 用户异常
+     * @param e
+     * @param request
+     * @return
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<Object> userException(UserException e, HttpServletRequest request) {
+        return HttpResponseSupport.error(HttpStatus.UNAUTHORIZED, e);
+    }
+
+    /**
      * 校验异常
      * @param e
      * @param request

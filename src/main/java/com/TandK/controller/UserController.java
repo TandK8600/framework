@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.TandK.core.support.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -68,5 +69,13 @@ public class UserController {
     @GetMapping("/{uuid}")
     public ResponseEntity<Object> getUser(@PathVariable("uuid") String uuid){
         return HttpResponseSupport.success(userService.getUser(uuid));
+    }
+
+    @IgnoreToken
+    @ApiOperation(value = "鉴权失败测试", response = UserVO.class)
+    @GetMapping("/test")
+    public ResponseEntity<Object> test(){
+        ResponseEntity<Object> entity = HttpResponseSupport.error(HttpStatus.UNAUTHORIZED, "鉴权失败", "X-Access-Token Defect");
+        return entity;
     }
 }
