@@ -3,8 +3,7 @@ package com.TandK.core.exception;
 import com.TandK.core.constant.HttpMessageConstant;
 import com.TandK.core.support.http.HttpResponseSupport;
 import com.TandK.core.support.http.ResponseEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -19,10 +18,9 @@ import java.util.List;
 /**
  * @author TandK
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 系统异常，返回服务器内部错误
@@ -33,7 +31,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<Object> systemException(Throwable e, HttpServletRequest request) {
-        logger.error("出现了 全局Exception异常, 地址是：{}，异常是：{}", request.getRequestURI(), e);
+        log.error("出现了 全局Exception异常, 地址是：{}，异常是：{}", request.getRequestURI(), e);
         return HttpResponseSupport.error(HttpStatus.INTERNAL_SERVER_ERROR,
                 HttpMessageConstant.HTTP_MESSAGE_INTERNAL_SERVER_ERROR, e.getMessage());
     }
@@ -46,9 +44,9 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<Object> businessException(BusinessException e, HttpServletRequest request) {
-        logger.error("BusinessException, 地址是：{}，异常是：{}", request.getRequestURI(), e);
+    @ExceptionHandler(RRException.class)
+    public ResponseEntity<Object> RRException(RRException e, HttpServletRequest request) {
+        log.error("RRException, 地址是：{}，异常是：{}", request.getRequestURI(), e);
         return HttpResponseSupport.error(HttpStatus.OK, e);
     }
 
@@ -61,7 +59,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ResponseEntity<Object> bindException(BindException e, HttpServletRequest request) {
-        logger.error("BindException, 地址是：{}，异常是：{}", request.getRequestURI(), e);
+        log.error("BindException, 地址是：{}，异常是：{}", request.getRequestURI(), e);
         StringBuilder errorMessage = new StringBuilder("Invalid Request:");
         BindingResult bindingResult = e.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -74,7 +72,7 @@ public class GlobalExceptionHandler {
             }
         }
 
-        logger.error(bindingResult.getFieldError().getDefaultMessage());
+        log.error(bindingResult.getFieldError().getDefaultMessage());
         return HttpResponseSupport.error(HttpStatus.BAD_REQUEST, HttpMessageConstant.HTTP_MESSAGE_BAG_REQUEST, errorMessage.toString());
 
     }

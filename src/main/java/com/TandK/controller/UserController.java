@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author TandK
@@ -32,15 +33,15 @@ public class UserController {
     @ApiOperation(value = "登录", response = String.class)
     @IgnoreToken
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody LoginVO loginVO){
+    public String login(@Valid @RequestBody LoginVO loginVO){
         return userService.login(loginVO);
     }
 
-
+    @RedisCache(dynamicCacheKey = false, cacheKey = "users", cacheTimeout = 30, cacheTimeoutUnit = TimeUnit.SECONDS)
     @ApiOperation(value = "获取用户信息", response = UserVO.class)
     @GetMapping()
     public ResponseEntity<Object> getUsers(){
-        return userService.getUsers();
+        return HttpResponseSupport.success(userService.getUsers());
     }
 
     @GetMapping("page")
@@ -51,15 +52,17 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<Object> addUser(@Valid @RequestBody UserVO userVO){
-        return userService.addUser(userVO);
+        return HttpResponseSupport.success(userService.addUser(userVO));
     }
 
+    @RedisCache(dynamicCacheKey = false, cacheKey = "mine")
     @ApiOperation(value = "获取我的信息", response = UserVO.class)
     @GetMapping("/mine")
     public ResponseEntity<Object> getMyInfo(){
         return HttpResponseSupport.success(userService.getMyInfo());
     }
 
+    @RedisCache(dynamicCacheKeyPattern = "user_{}", dynamicCacheKeyParameterIndexArray = {0})
     @IgnoreToken
     @ApiOperation(value = "获取指定用户信息", response = UserVO.class)
     @GetMapping("/{uuid}")

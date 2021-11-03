@@ -1,6 +1,6 @@
 package com.TandK.core.support.http;
 
-import com.TandK.core.exception.CustomException;
+import com.TandK.core.exception.RRException;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.http.HttpStatus;
@@ -63,12 +63,11 @@ public class HttpResponseSupport {
     }
 
 
-    public synchronized static ResponseEntity<Object> error(HttpStatus httpStatus, CustomException e) {
+    public synchronized static ResponseEntity<Object> error(HttpStatus httpStatus, RRException e) {
         JSONObject tempJSON = new JSONObject();
         responseErrorJson.clear();
         responseErrorJson.put("type", httpStatus.getReasonPhrase());
         responseErrorJson.put("message", e.getMessage());
-        responseErrorJson.put("reason", e.getReason());
         responseErrorJson.put("code", e.getCode());
         return obtainResponseEntity(httpStatus, responseErrorJson);
     }
