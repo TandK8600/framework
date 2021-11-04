@@ -71,11 +71,4 @@ public class UserController {
         return HttpResponseSupport.success(userService.getUser(uuid));
     }
 
-    @IgnoreToken
-    @ApiOperation(value = "鉴权失败测试", response = UserVO.class)
-    @GetMapping("/test")
-    public ResponseEntity<Object> test(){
-        ResponseEntity<Object> entity = HttpResponseSupport.error(HttpStatus.UNAUTHORIZED, "鉴权失败", "X-Access-Token Defect");
-        return entity;
-    }
 }
