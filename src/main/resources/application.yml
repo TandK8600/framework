@@ -18,6 +18,18 @@ spring:
     max-wait: -1
     max-idle: 8
     min-idle: 0
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#  template:
+#    default-topic: kafka-test  #默认topic名称可以与logstash的input的名称一致
 
 
 dankal:
