@@ -19,20 +19,6 @@ import java.time.LocalDateTime;
 @Component
 public class KafkaMessageListener {
 
-
-    @KafkaListener(
-            topics = {CommonConst.Kafka.Topic.SIMPLE_MESSAGE},
-            groupId = CommonConst.Kafka.ConsumerGroupId.SIMPLE_MESSAGE_GROUP
-    )
-    public void simpleMessageListener(SimpleMessage simpleMessage,
-                                      Acknowledgment acknowledgment) {
-        log.info("{} 执行线程: {} 消费消息 ==> 主题: {}",
-                CommonConst.FULL_DATE_TIME_FORMATTER.format(LocalDateTime.now()),
-                getSpringKafkaConsumerName(Thread.currentThread().getName()),
-                simpleMessage);
-        acknowledgment.acknowledge();
-    }
-
     @KafkaListener(
             topics = {CommonConst.Kafka.Topic.STRING_MESSAGE},
             groupId = CommonConst.Kafka.ConsumerGroupId.STRING_MESSAGE_GROUP

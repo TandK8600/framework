@@ -1,6 +1,4 @@
 package com.TandK.service;
-
-import com.TandK.model.bo.SimpleMessage;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutionException;
@@ -17,10 +15,10 @@ public interface KafkaMessageService {
      *
      * @param topic               目标 topic
      * @param key                 消息 key
-     * @param simpleMessage      需要发送的消息
+     * @param message      需要发送的消息
      * @return 是否执行成功
      */
-    boolean sendMessageBySimple(String topic, String key, SimpleMessage simpleMessage);
+    boolean sendMessageBySimple(String topic, String key, String message);
 
 
     /**
@@ -28,20 +26,20 @@ public interface KafkaMessageService {
      *
      * @param topic               目标 topic
      * @param key                 消息 key
-     * @param simpleMessage     需要发送的消息
+     * @param message     需要发送的消息
      * @return 是否执行成功
      * @throws ExecutionException   @see {@link ListenableFuture#get()}
      * @throws InterruptedException @see {@link ListenableFuture#get()}
      */
-    boolean sendMessageBySync(String topic, String key, SimpleMessage simpleMessage) throws ExecutionException, InterruptedException;
+    boolean sendMessageBySync(String topic, String key, String message) throws ExecutionException, InterruptedException;
 
     /**
      * 异步发送  Kafka 消息
      *
      * @param topic               目标 topic
      * @param key                 消息 key
-     * @param simpleMessage      需要发送的消息
+     * @param message      需要发送的消息
      * @return 是否执行成功过
      */
-    boolean sendMessageByAsync(String topic, String key, SimpleMessage simpleMessage);
+    boolean sendMessageByAsync(String topic, String key, String message);
 }

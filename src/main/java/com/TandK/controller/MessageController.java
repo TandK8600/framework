@@ -8,7 +8,6 @@ import com.TandK.model.bo.SimpleMessage;
 import com.TandK.model.po.UserPO;
 import com.TandK.model.po.UserTokenPO;
 import com.TandK.service.KafkaMessageService;
-import com.TandK.service.KafkaStringMessageService;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,8 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/messages")
 public class MessageController {
 
-    @Autowired
-    private KafkaStringMessageService KafkaStringMessageService;
 
     @Autowired
     private KafkaMessageService kafkaMessageService;
@@ -36,17 +33,10 @@ public class MessageController {
     @ApiOperation(value = "测试kafka", response = ResponseEntity.class)
     @GetMapping()
     public ResponseEntity<Object> testKafka(){
-        final String topic = CommonConst.Kafka.Topic.STRING_MESSAGE;
         final String key = "test-str-" + RandomUtil.randomInt(10, 500);
         final String message = RandomUtil.randomString(20);
-        KafkaStringMessageService.sendStringMessage(topic, key, message);
-
-        SimpleMessage simpleMessage = new SimpleMessage();
-        simpleMessage.setId(1);
-        simpleMessage.setContent("这是simpleMessage");
-        simpleMessage.setKey("keeeeeeeeeeeeeeey");
-        kafkaMessageService.sendMessageByAsync(CommonConst.Kafka.Topic.SIMPLE_MESSAGE,
-                simpleMessage.getKey(), simpleMessage);
+        kafkaMessageService.sendMessageByAsync(CommonConst.Kafka.Topic.STRING_MESSAGE,
+                key, message);
 
         return HttpResponseSupport.success(message);
     }

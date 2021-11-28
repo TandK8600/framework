@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class KafkaMessageServiceImpl implements KafkaMessageService {
 
-    private final KafkaTemplate<String, SimpleMessage> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     /**
      * 成功回调
@@ -32,31 +32,31 @@ public class KafkaMessageServiceImpl implements KafkaMessageService {
      */
     private final AsyncSendMessageFailureCallback asyncSendMessageFailureCallback;
 
-    public KafkaMessageServiceImpl(KafkaTemplate<String, SimpleMessage> kafkaTemplate, MessageSuccessCallback messageSuccessCallback, AsyncSendMessageFailureCallback asyncSendMessageFailureCallback) {
+    public KafkaMessageServiceImpl(KafkaTemplate<String, String> kafkaTemplate, MessageSuccessCallback messageSuccessCallback, AsyncSendMessageFailureCallback asyncSendMessageFailureCallback) {
         this.kafkaTemplate = kafkaTemplate;
         this.messageSuccessCallback = messageSuccessCallback;
         this.asyncSendMessageFailureCallback = asyncSendMessageFailureCallback;
     }
 
     @Override
-    public boolean sendMessageBySimple(String topic, String key, SimpleMessage simpleMessage) {
+    public boolean sendMessageBySimple(String topic, String key, String message) {
         // 发送并忘记
-        kafkaTemplate.send(topic, key, simpleMessage);
+        kafkaTemplate.send(topic, key, message);
         return true;
     }
 
     @Override
-    public boolean sendMessageBySync(String topic, String key, SimpleMessage simpleMessage) throws ExecutionException, InterruptedException {
+    public boolean sendMessageBySync(String topic, String key, String message) throws ExecutionException, InterruptedException {
         // 同步发送
-        SendResult<String, SimpleMessage> sendResult = kafkaTemplate.send(topic, key, simpleMessage).get();
+        SendResult<String, String> sendResult = kafkaTemplate.send(topic, key, message).get();
         return sendResult.getRecordMetadata().offset() > 0;
     }
 
     @Override
-    public boolean sendMessageByAsync(String topic, String key, SimpleMessage simpleMessage) {
+    public boolean sendMessageByAsync(String topic, String key, String message) {
         // 异步发送
         kafkaTemplate
-                .send(topic, key, simpleMessage)
+                .send(topic, key, message)
                 // 添加异步回调处理
                 .addCallback(messageSuccessCallback, asyncSendMessageFailureCallback);
         return true;

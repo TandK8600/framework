@@ -73,16 +73,6 @@ public interface CommonConst {
              * simple-string-consumer
              */
             String STRING_MESSAGE_GROUP = "string-message-group";
-
-            /**
-             * hello-spring-kafka-group
-             */
-            String SIMPLE_MESSAGE_GROUP = "simple-message-group";
-
-            /**
-             * test-string-message-handler-error
-             */
-            String GROUP_ID_TEST_STRING_MESSAGE_HANDLER_ERROR_CONSUMER = "test-string-message-handler-error";
         }
 
         /**
@@ -96,22 +86,6 @@ public interface CommonConst {
              * </p>
              */
             String STRING_MESSAGE = "string-message";
-
-            /**
-             * hello-spring-kafka
-             * <p>
-             * 测试 spring kafka 的主题
-             * </p>
-             */
-            String SIMPLE_MESSAGE = "simple-message";
-
-            /**
-             * handler-string-message-error-message
-             * <p>
-             * 存放 出现 string message 异常信息的主题
-             * </p>
-             */
-            String TOPIC_HANDLER_STRING_MESSAGE_ERROR_MESSAGE = "handler-string-message-error-message";
         }
     }
 

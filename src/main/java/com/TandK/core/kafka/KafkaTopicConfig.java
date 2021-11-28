@@ -56,17 +56,4 @@ public class KafkaTopicConfig {
                 kafkaProperties.getListener().getConcurrency(),
                 brokerCount);
     }
-
-    /**
-     * 新建一个kafka主题: simple-string-message 如果需要话
-     *
-     * @return NewTopic
-     */
-    @Bean
-    public NewTopic simpleMessageKafkaTopic() {
-        return new NewTopic(
-                CommonConst.Kafka.Topic.SIMPLE_MESSAGE,
-                kafkaProperties.getListener().getConcurrency(),
-                brokerCount);
-    }
 }

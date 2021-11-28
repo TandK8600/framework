@@ -14,10 +14,10 @@ import org.springframework.util.concurrent.SuccessCallback;
  */
 @Slf4j
 @Component
-public class MessageSuccessCallback implements SuccessCallback<SendResult<String, SimpleMessage>> {
+public class MessageSuccessCallback implements SuccessCallback<SendResult<String, String>> {
 
     @Override
-    public void onSuccess(SendResult<String, SimpleMessage> result) {
+    public void onSuccess(SendResult<String, String> result) {
         if (null == result) {
             if (log.isWarnEnabled()) {
                 log.warn("current result is null!!!");
